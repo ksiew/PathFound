@@ -6,6 +6,7 @@ for filename in os.listdir("Characters"):
    with open(os.path.join("Characters", filename), 'r') as f:
        data = json.load(f)
 
+currentHp = int(data['hp']['total'])
 def m_attack_roll():
     if not 'melee' in data:
         print("No melee weapons")
@@ -54,20 +55,34 @@ def get_ac():
     if 'shieldBonus' in bonus:
         shield = int(bonus['shieldBonus'])
     total = int(bonus['armorBonus']) + int(shield) + int((int(data['abilities']['dex']) - 10)/2)
-    print("AC: 10 " + bonus['armorBonus'] + " + " + str(shield) + " = " + 
-        str(int((int(data['abilities']['dex']) - 10)/2)) + str(total))
+    print("AC: 10 " + bonus['armorBonus'] + " + " + str(shield) + " + " + 
+        str(int((int(data['abilities']['dex']) - 10)/2)) + " = " + str(data['ac']['total']))
 
 def roll_intiative():
     roll = int(random.randrange(1,21))
     bonus = int(data['initiative']['total'])
     print("Initiative: " + str(roll) + " + " + str(bonus) + " = " + str(roll + bonus))
 
+def hp_stuff():
+    global currentHp
+    change = input("current hp: " + str(currentHp) + ". How much does hp change? (0 for reset)")
+    if change == '0':
+        currentHp = int(data['hp']['total'])
+    else:
+        if change[0] == '-':
+            
+            currentHp -= int(change[1:99])
+        else:
+            currentHp += int(change)
+    print("New Hp: " + str(currentHp))
+
 def start():
     commandDict = {
         "1": m_attack_roll,
         "2": r_attack_roll,
         "3": get_ac,
-        "4": roll_intiative
+        "4": roll_intiative,
+        "5": hp_stuff
     }
     print("Character: " + data['name'])
     while(True):
