@@ -3,8 +3,9 @@ import os
 import random
 
 for filename in os.listdir("Characters"):
-   with open(os.path.join("Characters", filename), 'r') as f:
-       data = json.load(f)
+    if filename.endswith('.json'):
+        with open(os.path.join("Characters", filename), 'r') as f:
+            data = json.load(f)
 
 currentHp = int(data['hp']['total'])
 def m_attack_roll():
