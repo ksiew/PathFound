@@ -23,11 +23,17 @@ def m_attack_roll():
 
 def m_damage_roll(crit):
     for weapon in data['melee']:
+        roll = 0
         damage = weapon['damage']
-        for i in range(int(damage[0])): #damage[0] = # of rolls
-            roll = int(random.randrange(1,(1 + int(damage[2])))) 
-            bonus = int((int(data['abilities']['str']) - 10)/2)
-            print(weapon['weapon'] + ": " + str(roll) +  " + " + str(bonus) + " = " + str(bonus + roll))
+        rolls = int(damage[0])
+        if crit:
+            rolls = rolls * int(weapon['critical'][1])
+        for i in range(rolls): #damage[0] = # of rolls
+            rol = int(random.randrange(1,(1 + int(damage[2])))) 
+            print("Roll " + str(i + 1) +": " + str(rol))
+            roll += rol
+        bonus = int((int(data['abilities']['str']) - 10)/2)
+        print(weapon['weapon'] + ": " + str(roll) +  " + " + str(bonus) + " = " + str(bonus + roll))
 
 def r_attack_roll():
     if not 'ranged' in data:
@@ -43,12 +49,17 @@ def r_attack_roll():
         r_damage_roll(False)
 
 def r_damage_roll(crit):
-    for weapon in data['ranged']:
+     for weapon in data['ranged']:
+        roll = 0
         damage = weapon['damage']
-        for i in range(int(damage[0])): #damage[0] = # of rolls
-            roll = int(random.randrange(1,(1 + int(damage[2])))) 
-            bonus = int((int(data['abilities']['dex']) - 10)/2)
-            print(weapon['weapon'] + ": " + str(roll) +  " + " + str(bonus) + " = " + str(bonus + roll))
+        rolls = int(damage[0])
+        if crit:
+            rolls = rolls * int(weapon['critical'][1])
+        for i in range(rolls): #damage[0] = # of rolls
+            rol = int(random.randrange(1,(1 + int(damage[2])))) 
+            print("Roll " + str(i + 1) +": " + str(rol))
+            roll += rol
+        print(weapon['weapon'] + ": " + str(roll) + " = " + str(roll))
 
 def get_ac():
     bonus = data['ac']
