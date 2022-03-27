@@ -6,7 +6,7 @@ A script to automate Pathfinder checks
 2. Download ZIP file and unzip wherever
 3. Download JSON file of character sheet from https://charactersheet.co.uk/pathfinder/#/
 4. Place JSON file in Characters folder
-5. run Main by double clicking it
+5. Run Main by double clicking it
 
 # Changes
 03/27/2002: created
