@@ -66,6 +66,7 @@ def roll_intiative():
 
 def hp_stuff():
     global currentHp
+    print("Total hp: " + data['hp']['total'])
     change = input("current hp: " + str(currentHp) + ". How much does hp change? (0 for reset)")
     if change == '0':
         currentHp = int(data['hp']['total'])
