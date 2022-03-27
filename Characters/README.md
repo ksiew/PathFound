@@ -1,0 +1,1 @@
+Place Character JSON files in this folder
