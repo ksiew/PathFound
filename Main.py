@@ -8,15 +8,25 @@ for filename in os.listdir("Characters"):
             data = json.load(f)
 
 currentHp = int(data['hp']['total'])
+
+def dice_roll(sides):
+    roll = random.randrange(1,(1 +sides))
+    print("")
+    print ("Rolling d" + str(sides) + " = " + str(roll))
+    if roll == 20:
+        print("CRIT!")
+    if roll == 1:
+        print("CRITICAL FAIL!")
+    return roll
+
 def m_attack_roll():
     if not 'melee' in data:
         print("No melee weapons")
         return
-    roll = int(random.randrange(1,21))
+    roll = dice_roll(20)
     bonus = int((int(data['abilities']['str']) - 10)/2) + int(data['bab'])
     print("Attack roll: " + str(roll) + " + " + str(bonus) + " = " + str(roll + bonus))
     if roll == 20:
-        print("CRIT!")
         m_damage_roll(True)
     else:
         m_damage_roll(False)
@@ -29,8 +39,7 @@ def m_damage_roll(crit):
         if crit:
             rolls = rolls * int(weapon['critical'][1])
         for i in range(rolls): #damage[0] = # of rolls
-            rol = int(random.randrange(1,(1 + int(damage[2])))) 
-            print("Roll " + str(i + 1) +": " + str(rol))
+            rol = dice_roll(int(damage[2])) 
             roll += rol
         bonus = int((int(data['abilities']['str']) - 10)/2)
         print(weapon['weapon'] + ": " + str(roll) +  " + " + str(bonus) + " = " + str(bonus + roll))
@@ -39,7 +48,7 @@ def r_attack_roll():
     if not 'ranged' in data:
         print("No ranged weapons")
         return
-    roll = int(random.randrange(1,21))
+    roll = dice_roll(20)
     bonus = int((int(data['abilities']['dex']) - 10)/2) + int(data['bab'])
     print("Attack roll: " + str(roll) + " + " + str(bonus) + " = " + str(roll + bonus))
     if roll == 20:
@@ -56,7 +65,7 @@ def r_damage_roll(crit):
         if crit:
             rolls = rolls * int(weapon['critical'][1])
         for i in range(rolls): #damage[0] = # of rolls
-            rol = int(random.randrange(1,(1 + int(damage[2])))) 
+            rol = dice_roll(int(damage[2])) 
             print("Roll " + str(i + 1) +": " + str(rol))
             roll += rol
         print(weapon['weapon'] + ": " + str(roll) + " = " + str(roll))
@@ -71,7 +80,7 @@ def get_ac():
         str(int((int(data['abilities']['dex']) - 10)/2)) + " = " + str(data['ac']['total']))
 
 def roll_intiative():
-    roll = int(random.randrange(1,21))
+    roll = dice_roll(20)
     bonus = int(data['initiative']['total'])
     print("Initiative: " + str(roll) + " + " + str(bonus) + " = " + str(roll + bonus))
 
@@ -96,7 +105,7 @@ def roll_save():
         '3': 'will'
     }
     type = input("What type of save? \n 1) Fortitude \n 2) Reflex \n 3) Will\n")
-    roll = random.randrange(1, 21)
+    roll = dice_roll(20)
     bonus = data['saves'][typeDict[type]]['total']
     print(str(roll) + " + " + str(bonus) + " = " +  str(int(roll) + int(bonus)))
 
@@ -114,7 +123,7 @@ def roll_skill():
     for i, va in typeDict.items():
         print(i + ") " + va)
     type = input("")
-    roll = random.randrange(1, 21)
+    roll = dice_roll(20)
     bonus = data['skills'][typeDict[type]]['total']
     print(str(roll) + " + " + str(bonus) + " = " +  str(int(roll) + int(bonus)))
 
